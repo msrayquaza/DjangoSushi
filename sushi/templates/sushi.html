@@ -1,0 +1,32 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+<h1>Menú de Platillos</h1>
+
+<ul>
+  {% for platillo in platillos %}
+  <li>
+    <h3>{{ platillo.nombre }}</h3>
+    <p><strong>Descripción:</strong> {{ platillo.descripcion }}</p>
+    <p><strong>Precio:</strong> ${{ platillo.precio }}</p>
+    
+    {% if platillo.imagen %}
+    <img src="{{ platillo.imagen.url }}" alt="{{ platillo.nombre }}" width="150">
+    {% endif %}
+    
+    <h4>Ingredientes:</h4>
+    <ul>
+      {% for ingrediente in platillo.ingredientes.all %}
+      <li>{{ ingrediente.nombre }} ({{ ingrediente.cantidad }} {{ ingrediente.unidad_medida }})</li>
+      {% empty %}
+      <li>Sin ingredientes registrados aún</li>
+      {% endfor %}
+    </ul>
+  </li>
+  {% empty %}
+  <li>No hay platillos registrados en este momento.</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
+
