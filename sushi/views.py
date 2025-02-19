@@ -12,6 +12,9 @@ from.models import Platillo
 
 from .forms import SushiForm
 
+import logging
+logger = logging.getLogger(__name__)  # Configura el logger
+
 def signup(request):
     if request.method == 'GET':
         return render(request, 'signup.html', {"form": UserCreationForm})
@@ -65,6 +68,18 @@ def signout(request):
     return redirect('home')
 
 @login_required
+
+
+
+
 def sushi(request):
     sushi_dishes = Platillo.objects.all()  # Obtiene todos los platillos de sushi
+    
+    # Mensaje en la consola con print()
+    print(f"Sushi Dishes ({sushi_dishes.count()}):", list(sushi_dishes))
+
+    # Mensaje en el log de Django con logging
+    logger.info(f"Sushi Dishes ({sushi_dishes.count()}): {list(sushi_dishes)}")
+
     return render(request, 'sushi.html', {"sushi_dishes": sushi_dishes})
+
