@@ -16,13 +16,20 @@
     {% endif %}
     
     <h4>Ingredientes:</h4>
-    <ul>
-      {% for ingrediente in platillo.ingredientes.all %}
-      <li>{{ ingrediente.nombre }} ({{ ingrediente.cantidad }} {{ ingrediente.unidad_medida }})</li>
-      {% empty %}
-      <li>Sin ingredientes registrados aún</li>
-      {% endfor %}
-    </ul>
+    <p>
+      {% if platillo.ingredientes %}
+        {{ platillo.ingredientes|linebreaksbr }}
+      {% else %}
+        Sin ingredientes registrados aún
+      {% endif %}
+    </p>
+    
+    <!-- Botones para Editar y Eliminar -->
+    <a href="{% url 'edit_platillo' platillo.id %}" class="btn btn-primary">Editar</a>
+    <form action="{% url 'delete_platillo' platillo.id %}" method="POST" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Eliminar</button>
+    </form>
   </li>
   {% empty %}
   <li>No hay platillos registrados en este momento.</li>
@@ -30,4 +37,3 @@
 </ul>
 
 {% endblock %}
-

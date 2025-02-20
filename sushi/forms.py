@@ -1,12 +1,12 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Platillo, PlatilloIngrediente
+from .models import Platillo
 
 class SushiForm(ModelForm):
     ingredientes = forms.CharField(
         label="Ingredientes del platillo",
         required=False,
-        widget=forms.Textarea(attrs={'readonly': 'readonly', 'rows': 3})  # Campo solo lectura
+        widget=forms.Textarea(attrs={'rows': 3})  # Permitir edición
     )
 
     class Meta:
@@ -26,14 +26,3 @@ class SushiForm(ModelForm):
             'imagen': 'Seleccione una imagen para el platillo',
             'ingredientes': 'Lista de ingredientes utilizados en este platillo'
         }
-
-    def __init__(self, *args, **kwargs):
-        super(SushiForm, self).__init__(*args, **kwargs)
-        if self.instance and self.instance.pk:
-            ingredientes = PlatilloIngrediente.objects.filter(platillo=self.instance)
-            if ingredientes.exists():
-                self.fields['ingredientes'].initial = "\n".join(
-                    [f"{ing.ingrediente.nombre} ({ing.cantidad} {ing.ingrediente.get_unidad_medida_display()})" for ing in ingredientes]
-                )
-            else:
-                self.fields['ingredientes'].initial = "Sin ingredientes registrados aún"

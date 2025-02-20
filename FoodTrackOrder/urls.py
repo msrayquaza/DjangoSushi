@@ -28,6 +28,8 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('logout/', views.signout, name='logout'),
     path('sushi/create/', views.create_platillo, name='create_platillo'),
+    path('sushi/edit/<int:platillo_id>/', views.edit_platillo, name='edit_platillo'),  # <-- Asegúrate de incluir esta línea
+    path('sushi/delete/<int:platillo_id>/', views.delete_platillo, name='delete_platillo'),  # <-- Y esta también
     
 ]
 
